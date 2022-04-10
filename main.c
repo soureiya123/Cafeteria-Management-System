@@ -15,11 +15,12 @@ int login();
 
 int main(){
     int choice;
+    int loginr = 0;
 
     printf("1:sign up\n");
     printf("2 login\n");
     printf("3:Exit\n");
-    printf("Enter your choice\n");
+    printf("Enter your choice: ");
     scanf("%d",&choice);
     fgetc(stdin);
 
@@ -28,12 +29,18 @@ int main(){
             signup();
             break;
         case 2:
-            if(login()){
+            
+            loginr = login();
+            printf("%d \n",loginr);
+            if(loginr == 1){
                 int selected;
-                while(scanf("%d",&selected) != 0){
-                    homemenu();
-                }
+                homemenu();
+            }else{
+                main();
             }
             break;
+        default:
+            printf("Exiting ........");
+            return 1;
     }
 }

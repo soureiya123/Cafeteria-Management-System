@@ -69,20 +69,19 @@ int login(){
     scanf("%s",studentPass);
     FILE *fp=fopen(" Students.data","r");
     while(fread(&student,sizeof(struct User),1,fp)){
-        printf("%s",student.id);
-            if(strcmp(student.id,studentnId)){
-                if(strcmp(student.password,studentPass)){
-
-                        printf("welcome");
+            if(!strcmp(student.id,studentnId)){
+                if(!strcmp(student.password,studentPass)){
+                        printf("welcome \n");
                         return 1;
+                        break;
                 }else{
 
-                    printf("Invalid password");
+                    printf("Invalid password \n");
                     Beep(800,300);
-                    return 0;
                 }
             }
     }
+    return 0;
 }
 
 int signup(){
@@ -95,7 +94,7 @@ int signup(){
     scanf("%s",userptr->password);
     printf("Confirm your password: ");
     scanf("%s",finalPasswd);
-    if (strcmp(user.password,finalPasswd))
+    if (!strcmp(userptr->password,finalPasswd))
     {
         printf("your password matched");
         fp=fopen(" Students.data","a+");
@@ -110,11 +109,9 @@ int signup(){
         fclose(fp);
     }
     else{
-
-
-        printf("your passxord does not matched");
+        printf("your passxord does not matched. Please try again\n");
         Beep(750,300);
-
+        signup();
     }
 }
 
