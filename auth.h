@@ -17,7 +17,7 @@ struct User{
         char id[50];
         char course[50];
         char password[50];
-        char role[50];
+        int role;
     };
 
     struct User user;
@@ -71,8 +71,7 @@ int login(){
     while(fread(&student,sizeof(struct User),1,fp)){
             if(!strcmp(student.id,studentnId)){
                 if(!strcmp(student.password,studentPass)){
-                        printf("welcome \n");
-                        return 1;
+                        return student.role;
                         break;
                 }else{
 
@@ -86,6 +85,7 @@ int login(){
 
 int signup(){
     struct User *userptr = malloc(sizeof *userptr);
+    int user_role = 1;
     printf("Enter your id: ");
     scanf("%s",userptr->id);
     printf("Enter your course: ");
@@ -96,15 +96,29 @@ int signup(){
     scanf("%s",finalPasswd);
     if (!strcmp(userptr->password,finalPasswd))
     {
-        printf("your password matched");
+        printf("your password matched \n");
+        printf("Select your role \n");
+        printf("1 \t Student \n");
+        printf("2 \t Admin \n");
+        printf("Your selection: ");
+        scanf("%d",&user_role);
+        if(user_role == 2){
+            userptr->role = 2;
+        }else{
+            userptr->role = 1;
+        }
         fp=fopen(" Students.data","a+");
         fwrite(userptr,sizeof(struct User),1,fp);
 
         if(fwrite!=0){
-            printf(" Students registration is succed");
+            if(userptr->role == 2){
+                printf("Admin registration successfull");
+            }else{  
+                printf("Student registration successfull");
+            }
         }
         else{
-            printf(" Sorry,so,ething went wrong");
+            printf(" Sorry, something went wrong");
         }
         fclose(fp);
     }
