@@ -3,7 +3,7 @@
 #include <windows.h>
 
 #ifndef auth
-int login();
+struct User login();
 int signup();
 void takePassword();
 void takeInput();
@@ -13,14 +13,13 @@ void takeInput();
 #define BKSPC 8
 
 struct User{
+    char id[50];
+    char course[50];
+    char password[50];
+    int role;
+};
 
-        char id[50];
-        char course[50];
-        char password[50];
-        int role;
-    };
-
-    struct User user;
+struct User user;
 
 int choice;
 char finalPasswd[50];
@@ -62,7 +61,7 @@ void takInput(char input[50]){
     input[strlen(input)-1]=0;
 }
 
-int login(){
+struct User login(){
    printf("Enter your ID: ");
     scanf("%s",studentnId);
     printf("Enter your password: ");
@@ -71,7 +70,7 @@ int login(){
     while(fread(&student,sizeof(struct User),1,fp)){
             if(!strcmp(student.id,studentnId)){
                 if(!strcmp(student.password,studentPass)){
-                        return student.role;
+                        return student;
                         break;
                 }else{
 
@@ -80,7 +79,9 @@ int login(){
                 }
             }
     }
-    return 0;
+    struct User invalid_user;
+    invalid_user.role = 0;
+    return invalid_user;
 }
 
 int signup(){
@@ -107,7 +108,7 @@ int signup(){
         }else{
             userptr->role = 1;
         }
-        fp=fopen(" Students.data","a+");
+        fp=fopen("Students.data","a+");
         fwrite(userptr,sizeof(struct User),1,fp);
 
         if(fwrite!=0){
