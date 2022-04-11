@@ -68,8 +68,8 @@ struct User login(){
     scanf("%s",studentPass);
     FILE *fp=fopen(" Students.data","r");
     while(fread(&student,sizeof(struct User),1,fp)){
-            if(!strcmp(student.id,studentnId)){
-                if(!strcmp(student.password,studentPass)){
+            if(strcmp(student.id,studentnId) == 0){
+                if(strcmp(student.password,studentPass) == 0){
                         return student;
                         break;
                 }else{
@@ -95,7 +95,7 @@ int signup(){
     scanf("%s",userptr->password);
     printf("Confirm your password: ");
     scanf("%s",finalPasswd);
-    if (!strcmp(userptr->password,finalPasswd))
+    if (strcmp(userptr->password,finalPasswd) == 0)
     {
         printf("your password matched \n");
         printf("Select your role \n");

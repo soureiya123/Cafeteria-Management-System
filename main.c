@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 //define includes
 #include "auth.h"
@@ -147,12 +148,51 @@ void homemenu(){
 
 }
 
+//admin functionality
+void adminhome(){
+    int selection;
+
+    char buffer[32];
+    struct tm *ts;
+    size_t last;
+    time_t timestamp = time(NULL);
+
+    ts = localtime(&timestamp);
+    last = strftime(buffer,32, "%A", ts);
+
+
+    printf("\n \n --------------------WELCOME %s-------------------------- \n \n",user.id);
+    printf("Pleas select an option \n");
+    printf("1 \t See the submited choices \n");
+    printf("2 \t Exit \n");
+    printf("Selectin: ");
+
+    scanf("%d",&selection);
+
+    if(selection == 1){
+        FILE *fp;
+        fp = fopen("Meals.data","r");
+        struct meal meals;
+        
+        printf("\nDisplaying recorded meals for %s \n",buffer);
+        printf("\nStudent ID \t Meal \t \n");
+        while(fread(&meals, sizeof(struct meal), 1, fp)){
+            if(strcmp(meals.day,buffer) == 0){
+                printf("%s \t %s \t", meals.student_id, meals.food);
+            }
+        }
+        fclose(fp);
+    }else {
+        printf("Exiting ....");
+    }
+}
+
 void login_user(){
     user = login();
     if(user.role == 1){
         homemenu();
     }else if(user.role == 2){
-        printf("Admin interface \n");
+        adminhome();
     }else{
         printf("Invalid user ID or password \n");
         login_user();
