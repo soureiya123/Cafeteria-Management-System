@@ -35,7 +35,7 @@ void homemenu();
 //save the meal to a file
 int save_meal_to_file(char day[16], char food[100]){
     FILE *file;
-    file = fopen("Meals.data","a+");
+    file = fopen("Meals.data","ab");
     struct meal selected_meal;
     strcpy(selected_meal.day,day);
     strcpy(selected_meal.food,food);
@@ -171,14 +171,14 @@ void adminhome(){
 
     if(selection == 1){
         FILE *fp;
-        fp = fopen("Meals.data","r");
+        fp = fopen("Meals.data","rb");
         struct meal meals;
         
         printf("\nDisplaying recorded meals for %s \n",buffer);
-        printf("\nStudent ID \t Meal \t \n");
+        printf("\nStudent ID \t\t Meal \t \n");
         while(fread(&meals, sizeof(struct meal), 1, fp)){
             if(strcmp(meals.day,buffer) == 0){
-                printf("%s \t %s \t", meals.student_id, meals.food);
+                printf("%s \t\t %s \t \n", meals.student_id, meals.food);
             }
         }
         fclose(fp);
