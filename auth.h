@@ -66,8 +66,9 @@ struct User login(){
     scanf("%s",studentnId);
     printf("Enter your password: ");
     scanf("%s",studentPass);
-    FILE *fp=fopen(" Students.data","r");
+    FILE *fp=fopen("Students.data","r");
     while(fread(&student,sizeof(struct User),1,fp)){
+            printf("%s \n",student.id);            
             if(strcmp(student.id,studentnId) == 0){
                 if(strcmp(student.password,studentPass) == 0){
                         return student;
